@@ -19,4 +19,17 @@ export default class FinancesController {
 
     return response.status(201), finance;
   }
+
+  public async destroy({ auth, params, response }: HttpContextContract) {
+    const user = await auth.use("api").authenticate();
+    const finance = await Finance.findOrFail(params.id);
+
+    if (user.id !== finance.userId) {
+      return response.status(404), "Finance not found";
+    }
+
+    await finance.delete();
+
+    return response.status(204), {};
+  }
 }
