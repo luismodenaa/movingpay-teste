@@ -24,4 +24,6 @@ Route.group(() => {
   Route.get("/", async () => {
     return { hello: "world" };
   });
+  Route.resource("/users", "UsersController").apiOnly();
+  Route.resource("/finances", "FinancesController").apiOnly();
 }).prefix("/api");
