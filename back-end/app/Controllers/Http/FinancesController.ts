@@ -32,4 +32,27 @@ export default class FinancesController {
 
     return response.status(204), {};
   }
+
+  public async update({
+    auth,
+    params,
+    request,
+    response,
+  }: HttpContextContract) {
+    const user = await auth.use("api").authenticate();
+    const finance = await Finance.findOrFail(params.id);
+    const body = request.body();
+
+    if (user.id !== finance.userId) {
+      return response.status(404), "Finance not found";
+    }
+
+    finance.description = body.description;
+    finance.value = body.value;
+    finance.isReceipt = body.isReceipt;
+
+    await finance.save();
+
+    return response.status(200), finance;
+  }
 }
