@@ -26,4 +26,5 @@ Route.group(() => {
   });
   Route.resource("/users", "UsersController").apiOnly();
   Route.resource("/finances", "FinancesController").apiOnly();
+  Route.resource("/login", "SessionsController").apiOnly();
 }).prefix("/api");

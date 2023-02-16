@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string("description");
       table.decimal("value", 10, 2);
       table.boolean("isReceipt");
-      table.integer("userId").unsigned().references("users.id");
+      table.integer("user_id").unsigned().references("users.id");
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
