@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.increments("id", { primaryKey: true });
       table.string("description");
       table.decimal("value", 10, 2);
-      table.boolean("isReceipt");
+      table.boolean("is_receipt");
       table.integer("user_id").unsigned().references("users.id");
 
       /**

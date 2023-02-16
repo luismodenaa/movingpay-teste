@@ -15,7 +15,7 @@ export default class Finance extends BaseModel {
   public isReceipt: boolean;
 
   @column()
-  public userId: string;
+  public userId: number;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
