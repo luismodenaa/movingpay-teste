@@ -1,14 +1,23 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import { AxiosError } from "axios";
 
 interface IProvider {
-  user: object | null;
+  user: User;
   loadingUser: boolean;
   loginUser: (data: IUserLogin) => void;
   loginLoading: boolean;
+  finances: IFinance[];
+  setFinances: Dispatch<SetStateAction<never[]>>;
 }
 
 interface iAuthProps {
@@ -24,10 +33,32 @@ interface IDefaultErrorResponse {
   error: string;
 }
 
+export interface IFinance {
+  created_at: string;
+  updated_at: string;
+  description: string;
+  id: number;
+  value: number;
+  user_id: number;
+  is_receipt: boolean;
+}
+
+interface IUser {
+  created_at: string;
+  email: string;
+  id: number;
+  password: string;
+  updated_at: string;
+  finances: IFinance[];
+}
+
+type User = IUser | null;
+
 export const AuthContext = createContext<IProvider>({} as IProvider);
 
 export const AuthProvider = ({ children }: iAuthProps) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>(null);
+  const [finances, setFinances] = useState([]);
   const [loadingUser, setLoadingUser] = useState(true);
   const [loginLoading, setLoginLoading] = useState(false);
   const navigate = useNavigate();
@@ -42,8 +73,8 @@ export const AuthProvider = ({ children }: iAuthProps) => {
           api.defaults.headers.authorization = `Bearer ${token}`;
 
           const { data } = await api.get("/users");
-
           setUser(data);
+          setFinances(data.finances);
         } catch (error) {
           console.error(error);
         }
@@ -92,7 +123,14 @@ export const AuthProvider = ({ children }: iAuthProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, loadingUser, loginUser, loginLoading }}
+      value={{
+        user,
+        loadingUser,
+        loginUser,
+        loginLoading,
+        finances,
+        setFinances,
+      }}
     >
       {children}
     </AuthContext.Provider>

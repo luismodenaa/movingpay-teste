@@ -23,9 +23,7 @@ const InitialPage = () => {
     formState: { errors },
   } = useForm<IUserLogin>({ resolver: yupResolver(loginSchema) });
 
-  const { user, loginUser, loginLoading } = useContext(AuthContext);
-
-  console.log(user);
+  const { loginUser, loginLoading } = useContext(AuthContext);
 
   return (
     <>

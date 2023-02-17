@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../styles/devices";
 
 export const Header = styled.header`
   display: flex;
@@ -36,6 +37,25 @@ export const BodyDiv = styled.div`
   align-items: center;
   height: 100vh;
   margin: 0;
+  gap: 60px;
+  flex-direction: column;
+  margin-top: 8rem;
+
+  @media ${device.mobileL} {
+    flex-direction: row;
+    margin-top: 0;
+  }
+`;
+
+export const ContainerLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+`;
+
+export const ContainerRight = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Container = styled.div`
